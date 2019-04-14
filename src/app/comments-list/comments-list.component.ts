@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { CommentsService } from '../shared/comments-service.service';
 import { Comment } from '../shared/comment';
 
@@ -11,6 +11,9 @@ export class CommentsListComponent implements OnInit {
 
   commentsList: Comment[];
   errorMessage: string;
+
+  @ViewChild('displayTmpl') displayTmpl: TemplateRef<any>;
+  @ViewChild('editTmpl') editTmpl: TemplateRef<any>;
 
   constructor(private service: CommentsService) { }
 
@@ -41,6 +44,9 @@ export class CommentsListComponent implements OnInit {
   public goBack(comment: Comment) {
     comment.edditMode = false;
     this.refresh();
+  }
+  public getTemplate(comment: Comment) {
+    return comment.edditMode ? this.editTmpl : this.displayTmpl;
   }
 
 }
