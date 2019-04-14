@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>Comment Section</h1>
+  <form [formGroup]="commentCreator" (ngSumit)="onSubmit(commentCreator)">
+    <div class="form-group">
+
+      <label for="userName">User Name:</label>
+      <input id="userName" class="form-control" type="text" formControlName="userName" [ngClass]="{
+          'has-error': userName.invalid && userName.touched,
+          'has-success': userName.valid && userName.dirty
+        }">
+
+      <div class="alert alert-danger" *ngIf="userName.errors && (userName.dirty || userName.touched)">
+        <p *ngIf="userName.errors.required">This form element is required</p>
+        <p *ngIf="userName.errors.minlength">Minimal length for user name is
+          {{userName.errors.minlength.requiredLength}}</p>
+      </div>
+
+      <label for="comment">Comment</label>
+      <textarea id="comment" class="form-control" formControlName="comment" rows="5" [ngClass]="{
+          'has-error': comment.invalid && comment.touched,
+          'has-success': comment.valid
+        }"></textarea>
+      <div class="alert alert-danger" *ngIf="comment.errors && (comment.dirty || comment.touched)">
+        <p *ngIf="comment.errors.required">This form element is required</p>
+        <p *ngIf="comment.errors.minlength">Minimal length for user name is
+          {{comment.errors.minlength.requiredLength}}</p>
+      </div>
+
+    </div>
+    <div class="form-group" id="confirmCancel">
+
+      <input type="submit" class="btn btn-success" value="Publish" [disabled]="commentCreator.invalid"
+        (click)="createComment(commentCreator)">
+      <input type="button" class="btn btn-light" value="Cancel" (click)="resetForm()">
+
+    </div>
+  </form>
+
+</div>
+<!-- ToDo: add custom validator that sends a request to server  -->
+<app-comments-list #commentList></app-comments-list>
